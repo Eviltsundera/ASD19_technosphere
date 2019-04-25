@@ -1,0 +1,72 @@
+#include <iostream>
+#include <string>
+#include <stack>
+#include <queue>
+#include <utility>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+
+int compare(const void *a, const void *b) {
+    return *(int*)a - *(int*)b;
+}
+
+int main() {
+    int a[20000];
+    int b[20000];
+    int n = 0, m = 0;
+
+    int tmp = 1;
+    while (tmp != 0) {
+        cin >> tmp;
+        a[n] = tmp;
+        n++;
+    }
+    tmp = 1;
+    while (tmp != 0) {
+        cin >> tmp;
+        b[m] = tmp;
+        m++;
+    }
+
+
+
+    qsort(&a[0], n, sizeof(int), compare);
+    qsort(&b[0], m, sizeof(int), compare);
+
+    int pointer = 0;
+
+    for (int i = 0; i < n; i++) {
+        for (int j = pointer; j < m; j++) {
+            if(a[i] == b[j]) {
+                a[i] = 0;
+                b[j] = 0;
+                pointer = j + 1;
+                break;
+            }
+        }
+    }
+
+    int k = 0;
+    int ans[40000];
+    for(int i = 0; i < n; i++){
+        if(a[i] != 0) {
+            ans[k] = a[i];
+            k++;
+        }
+    }
+
+    for(int i = 0; i < m; i++){
+        if(b[i] != 0) {
+            ans[k] = b[i];
+            k++;
+        }
+    }
+
+    qsort(&ans[0], k, sizeof(int), compare);
+
+    for (int i = 0; i < k; i++) cout << ans[i] <<  " ";
+    return 0;
+}
