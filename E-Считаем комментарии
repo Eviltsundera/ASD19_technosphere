@@ -1,0 +1,38 @@
+#include <iostream>
+#include <string>
+#include <stack>
+#include <queue>
+#include <utility>
+#include <vector>
+#include <algorithm>
+
+
+using namespace std;
+int main() {
+    string str;
+    bool v1 = false, v2 = false, v3 = false, v4 = false;
+    int cnt1 = 0, cnt2 = 0, cnt3 = 0, cnt4 = 0;
+
+
+
+    getline(cin, str);
+    while (!cin.eof())
+    {
+        for(int i = 0; i < str.length(); i++)
+        {
+            if (str[i] == '(' && str[i+1] == '*' && !v1 && !v2 && !v3 && !v4) { v1 = true; continue; }
+            if (str[i] == '*' && str[i+1] == ')' && v1 && !v2 && !v3 && !v4) { v1 = false; cnt1++; continue; }
+
+            if (str[i] == '{' && !v1 && !v2 && !v3 && !v4) { v2 = true; continue; }
+            if (str[i] == '}' && !v1 && v2 && !v3 && !v4) { v2 = false; cnt2++; continue; }
+
+            if (str[i] == '/' && str[i + 1] == '/' && !v1 && !v2 && !v3 && !v4) { cnt3++; break;}
+
+            if (str[i] == '\'' && !v1 && !v2 && !v3 && !v4) { v4 = true; continue; }
+            if (str[i] == '\'' && !v1 && !v2 && !v3 && v4) { v4 = false; cnt4++; continue; }
+        }
+        getline(cin, str);
+    }
+    cout << cnt1 << " " << cnt2 << " " << cnt3 << " " << cnt4 << endl;
+    return 0;
+}
