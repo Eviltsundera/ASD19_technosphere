@@ -1,0 +1,42 @@
+#include <iostream>
+#include <vector>
+#include <cmath>
+#include <algorithm>
+#include <bitset>
+#include <utility>
+
+using namespace std;
+const int l = 40000000;
+bitset<l> a;
+const int k = 20000000;
+
+int main() {
+    int m, n;
+    cin >> m >> n;
+
+
+    for (int i = 0; i <= l; i++) {
+        a[i] = 1;
+    } a[0] = 0; a[1] = 0;
+
+    for (int i = 2; i <= l; i++) {
+        if(a[i] == 1) {
+            if((long long)i * i <= l) {
+                for(int j = i * i;j <= l; j += i) a[j] = 0;
+            }
+        }
+    }
+
+
+    int p = 0;
+    int ans = -1;
+    for (int i = k; i < k + n; i++) p += a[i];
+    if (p == m) ans = k;
+    for (int i = k - 1; i >= 2; i--) {
+        p = p - a[i + n] + a[i];
+        if(p == m) ans = i;
+    }
+    cout << ans;
+
+    return 0;
+}
