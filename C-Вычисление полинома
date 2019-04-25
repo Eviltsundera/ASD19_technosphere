@@ -1,0 +1,49 @@
+#include <iostream>
+#include <string>
+#include <stack>
+#include <queue>
+#include <utility>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+
+int compare(const void *a, const void *b) {
+    return *(int*)a - *(int*)b;
+}
+
+
+int main() {
+
+    int n, val, mod;
+    cin >> n >> val >> mod;
+
+    int a[100000];
+    int arg[10000];
+
+    for( int i = 0; i < n + 1; i++) {
+        cin >> a[i];
+        a[i] %= mod;
+    }
+
+    for (int i = 0 ; i < val; i++) {
+        cin >> arg[i];
+    }
+
+
+    long long int S;
+
+    for (int i = 0; i < val; i++) {
+        S = 0;
+        for (int j = 0; j < n; j++) {
+            S += a[j];
+            S *= arg[i];
+            S %= mod;
+        }
+        S += a[n];
+        S %= mod;
+        cout << S << "\n";
+    }
+    return 0;
+}
