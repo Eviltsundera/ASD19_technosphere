@@ -1,0 +1,44 @@
+#include <iostream>
+#include <vector>
+#include <cmath>
+#include <algorithm>
+#include <utility>
+
+using namespace std;
+
+int num(char x) {
+    return (int)x - (int)'0';
+}
+
+int main() {
+    int n;
+    cin >> n;
+    pair <int, bool> a[2 * n];
+    int tmp;
+    string s;
+    getline(cin, s);
+
+    for (int i = 0; i < n; i++) {
+        getline(cin, s);
+        tmp = (num(s[0]) * 10 + num(s[1])) * 3600 + (num(s[3]) * 10 + num(s[4])) * 60 + num(s[6]) * 10 + num(s[7]);
+        a[2 * i].first = tmp;
+        a[2 * i].second = 0;
+
+        tmp = (num(s[9]) * 10 + num(s[10])) * 3600 + (num(s[12]) * 10 + num(s[13])) * 60 + num(s[15]) * 10 + num(s[16]);
+        a[2 * i + 1].first = tmp;
+        a[2 * i + 1].second = 1;
+    }
+
+    sort(a, a + 2 * n);
+    int ans = 0;
+    tmp = 0;
+
+    for (int i = 0 ; i < 2 * n; i++) {
+        if(a[i].second == 0) tmp++;
+        else tmp --;
+        if (tmp > ans) ans = tmp;
+    }
+
+    cout << ans;
+    return 0;
+}
