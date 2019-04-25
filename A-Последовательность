@@ -1,0 +1,33 @@
+#include <iostream>
+#include <vector>
+#include <set>
+#include <algorithm>
+
+typedef long long int ll;
+
+using namespace std;
+
+int p1, p2, p3, n;
+
+ll rec(int m, int i, set<ll>& s) {
+    auto it = begin(s);
+    for (int j = 1; j < i; j++) it++;
+    if (i == m) {
+        return *it;
+    }
+    s.insert(*it * p1);
+    s.insert(*it * p2);
+    s.insert(*it * p3);
+    return rec(m, i + 1, s);
+}
+
+int main() {
+    cin >> p1 >> p2 >> p3 >> n;
+    set<ll> s;
+    s.insert(1);
+    s.insert(p1);
+    s.insert(p2);
+    s.insert(p3);
+    cout << rec(n, 0, s);
+    return 0;
+}
