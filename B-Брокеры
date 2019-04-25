@@ -1,0 +1,36 @@
+#include <string>
+#include <iostream>
+#include <stdio.h>
+#include <cstdlib>
+#include <time.h>
+#include <set>
+#include <queue>
+using namespace std;
+
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(0);
+
+    priority_queue<double, vector <double>, greater<double>> x;
+    int n;
+    cin >> n;
+
+    for (int i = 0; i < n; i++) {
+        int t;
+        cin >> t;
+        x.push(t);
+    }
+
+    double ans = 0;
+    while(x.size() != 1) {
+        double tmp = x.top();
+        x.pop();
+        tmp += x.top();
+        x.pop();
+        x.push(tmp);
+        ans += tmp;
+    }
+    cout << ans / 100;
+    return 0;
+}
