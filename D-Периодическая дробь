@@ -1,0 +1,59 @@
+#include <iostream>
+
+using namespace std;
+
+unsigned int gcd(long long a, long long b) {
+    while (b != 0) {
+        long long tmp = a;
+        a = b;
+        b = tmp % a;
+    }
+    return a;
+}
+
+int main()
+{
+    long long m, n;
+    cin >> m >> n;
+    cout << "0.";
+    if (m > 0) {
+        long long p = gcd(m, n);
+        m /= p;
+        n /= p;
+        p = 0;
+        long long q = 0;
+        long long z = n;
+        while (z % 2 == 0) {
+            p += 1;
+            z /= 2;
+        }
+        while (z % 5 == 0) {
+            q += 1;
+            z /= 5;
+        }
+        if (p < q) {
+            p = q;
+        }
+        for (int i = 1; i <= p; i++) {
+            m *= 10;
+            cout << m / n;
+            m %= n;
+        }
+        if (z > 1) {
+            cout << "(";
+            q = 9;
+            p = 1;
+            while (q % z > 0) {
+                p += 1;
+                q = q % z * 10 + 9;
+            }
+            for (int i = 1; i <= p; i++) {
+                m *= 10;
+                cout << m / n;
+                m %= n;
+            }
+            cout << ")\n";
+        }
+    }
+    return 0;
+}
