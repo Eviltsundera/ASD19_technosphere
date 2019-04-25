@@ -1,0 +1,51 @@
+#include <iostream>
+#include <string>
+#include <stack>
+#include <queue>
+#include <utility>
+#include <vector>
+#include <algorithm>
+
+
+
+using namespace std;
+int main() {
+    ios_base::sync_with_stdio(false);cin.tie(0);cout.tie(0);
+    int n;
+    cin >> n;
+    vector <long long int> left(4), right(4);
+    for (int i = 0; i < 4; i++) {
+        left[i] = 1000001;
+        right[i] = -1000001;
+    }
+
+    for (int i = 0; i < n; i++) {
+        long long int tmp;
+        cin >> tmp;
+
+        for (int s = 0; s <= 3; s++) {
+            if (tmp < left[s]) {
+                for (int r = 3; r >= s; r--) left[r + 1] = left[r];
+                left[s] = tmp;
+                break;
+            }
+        }
+
+        for (int s = 3; s >= 0; s--) {
+            if (tmp > right[s]) {
+                for (int r = 0; r < s; r++) right[r] = right[r + 1];
+                right[s] = tmp;
+                break;
+            }
+        }
+
+    }
+
+    
+    long long ans;
+    ans = right[1] * right[2] * right[3];
+    if (ans < left[0] * left[1] * right[3]) ans = left[0] * left[1] * right[3];
+
+    cout << ans;
+    return 0;
+}
