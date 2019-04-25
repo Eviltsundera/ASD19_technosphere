@@ -1,0 +1,64 @@
+#include <iostream>
+#include <string>
+#include <stack>
+#include <queue>
+#include <utility>
+#include <vector>
+#include <map>
+#include <unordered_map>
+
+
+
+using namespace std;
+const unsigned p = 29;
+
+int num(char c) {
+    return (int)c - (int)'a' + 1;
+}
+
+void create_hash(string s, vector<unsigned>& h, const vector<unsigned>& ptab) {
+    unsigned n = s.length();
+    h[n] = 0;
+    for(int i = n - 1; i >= 0; i--) {
+        h[i] = h[i + 1] + num(s[i]) * ptab[i];
+    }
+}
+
+int main() {
+    string s;
+    cin >> s;
+
+    unsigned n = s.length();
+    vector<unsigned> ptab(n);
+    ptab[0] = 1;
+    for (int i = 1; i < n; i++) {
+        ptab[i] = ptab[i - 1] * p;
+    }
+
+    vector<unsigned> h(n + 1);
+    create_hash(s, h, ptab);
+    vector<unsigned> ans(n + 1);
+
+    for (int l = 1; l <= n; l++) {
+        unordered_map <unsigned, int> a;
+        for(int i = 0; i <= n - l; i++) {
+            unsigned tmp;
+            tmp = (h[n - l - i] - h[n - i]) * ptab[i];
+            a[tmp]++;
+        }
+
+        ans[l] = 0;
+        for (auto c : a) {
+            if(c.second > ans[l]) ans[l] = c.second;
+        }
+        ans[l] *= l;
+    }
+
+    unsigned max = 0;
+    for (int i = 1; i <= n; i++) {
+        if(ans[i] > max) max = ans[i];
+    }
+
+    cout << max;
+    return 0;
+}
