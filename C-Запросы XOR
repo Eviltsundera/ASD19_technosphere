@@ -1,0 +1,82 @@
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+vector<int> v;
+
+void tree_build(vector<int>& a, int k) {
+    int n = a.size();
+    int t = k;
+    v.resize(2 * t);
+    for (int i = 0; i < n; i++) {
+        v[t - 1 + i] = a[i];
+    }
+
+    for (int i = t - 2; i >= 0; i--) {
+        v[i] = v[2 * i + 1] ^ v[2 * i + 2];
+    }
+
+    //return v;
+}
+
+
+int gg (int pos, int l, int r, int L, int R) {
+    if (l > R || L > r) return 0;
+    if (L <= l && r <= R) return v[pos];
+
+    int M = (l + r) / 2;
+    return gg(2 * pos + 1, l, M, L, R) ^ gg(2 * pos + 2, M + 1, r, L, R);
+}
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(0);
+    cout.tie(0);
+
+    int n, m;
+    cin >> n >> m;
+    vector<int> a(n);
+    for (int i = 0; i < n; i++) {
+        cin >> a[i];
+    }
+
+
+    int k = 1;
+    while (k < n) k *= 2;
+
+
+    n = k;
+
+
+    tree_build(a, k);
+
+
+
+    for (int i = 0; i < m; i++) {
+        int type;
+        cin >> type;
+
+        if (type == 2) {
+            int pos, key;
+            cin >> pos >> key;
+            int x = a[pos] ^ key;
+            a[pos] = key;
+            v[n - 1 + pos] = key;
+            int j = n - 1 + pos;
+            while(j > 0) {
+                j = (j - 1) / 2;
+                v[j] ^= x;
+            }
+        }
+
+
+        if (type == 1) {
+            int L, R;
+            cin >> L >> R;
+            cout << gg(0, 0, n - 1, L, R) << '\n';
+        }
+    }
+
+    return 0;
+}
