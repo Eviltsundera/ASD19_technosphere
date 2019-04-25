@@ -1,0 +1,69 @@
+#include <iostream>
+#include <string>
+#include <algorithm>
+#include <unordered_map>
+#include <map>
+#include <unordered_set>
+#include <vector>
+#include <set>
+#include <queue>
+#define ll long long int
+
+using namespace std;
+
+#define all(v) v.begin(), v.end()
+
+int main() {
+    int n, m;
+    cin >> n >> m;
+    vector<ll> request;
+    for (int i = 0; i < m; i++) {
+        ll t;
+        cin >> t;
+        request.push_back(t);
+    }
+
+    unordered_map<ll,queue<int>> v;
+    for (int i = 0; i < m; i++) {
+        ll x = request[i];
+        v[x].push(i);
+    }
+
+    unordered_set<ll> server;
+    int ans = 0;
+
+    for (int i = 0; i < m; i++) {
+        ll x = request[i];
+        auto it = server.find(x);
+
+        if (it == server.end()) {
+            ans++;
+            v[x].pop();
+            if (server.size() < n) {
+                server.insert(x);
+                if (v[x].empty()) server.erase(x);
+            } else {      //удаляем самый дальний элемент
+                ll del = *server.begin();
+
+
+                for (auto item : server) {
+                    if(v[del].front() < v[item].front()) del = item;
+                }
+
+
+
+                server.erase(del);
+                server.insert(x);
+                if (v[x].empty()) server.erase(x);
+            }
+        }
+        else {
+            v[x].pop();
+            if (v[x].empty()) server.erase(x);
+        }
+    }
+
+
+    cout << ans;
+    return 0;
+}
