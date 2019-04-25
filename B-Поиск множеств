@@ -1,0 +1,47 @@
+#include <iostream>
+#include <vector>
+#include <map>
+#include <string>
+#include <set>
+
+
+using namespace std;
+
+
+
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(0);
+    cout.tie(0);
+
+   int n, m, k;
+   cin >> n >> m >> k;
+   map <multiset<int>, int> v;
+
+   for (int i = 0; i < n; i++) {
+       multiset<int> tmp;
+       for (int j = 0; j < m; j++) {
+           int t;
+           cin >> t;
+           tmp.insert(t);
+       }
+
+       v[tmp];
+   }
+
+   for (int i = 0; i < k; i++) {
+       multiset<int> tmp;
+       for (int j = 0; j < m; j++) {
+           int t;
+           cin >> t;
+           tmp.insert(t);
+       }
+
+       auto it = v.find(tmp);
+       if(it == v.end()) cout << 0 << '\n';
+       else cout << 1 << '\n';
+   }
+
+   return 0;
+}
