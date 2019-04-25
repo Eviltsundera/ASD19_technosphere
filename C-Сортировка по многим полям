@@ -1,0 +1,81 @@
+#include <iostream>
+#include <string>
+#include <stack>
+#include <queue>
+#include <utility>
+#include <vector>
+#include <algorithm>
+
+
+
+using namespace std;
+
+struct elem {
+    string name;
+    vector <int> p;
+};
+
+int comparator (elem a, elem b, vector <int> &perm) {
+    for (int i = 0; i < perm.size(); i++) {
+        int x = perm[i] - 1;
+        if (a.p[x] > b.p[x]) return 1;
+        if (b.p[x] > a.p[x]) return -1;
+    }
+
+    return 0;
+}
+
+void sort_bubble(vector <elem> &a, int n, vector <int> &perm) {
+    bool sorted = false;
+    while (!sorted) {
+        sorted = true;
+        for (int i = 0; i < n-1; i++) {
+            if (comparator(a[i], a[i + 1], perm) == 1) {
+                elem tmp = a[i];
+                a[i] = a[i+1];
+                a[i+1] = tmp;
+                sorted = false;
+            }
+        }
+    }
+}
+
+int main() {
+
+    int n, k;
+    cin >> n >> k;
+    vector <int> perm;
+
+    for (int i = 0; i < k; i++) {
+        int tmp;
+        cin >> tmp;
+        perm.push_back(tmp);
+    }
+
+    vector <elem> a(n);
+    for (int i = 0; i < n; i++) {
+        elem tmp;
+        string tt;
+        cin >> tt;
+        tmp.name = tt;
+
+        for (int j = 0; j < k; j++) {
+            int t;
+            cin >> t;
+            tmp.p.push_back(t);
+        }
+
+        a[i] = tmp;
+    }
+
+
+
+
+
+
+    sort_bubble(a, n, perm);
+
+    for (int i = n -1 ; i >= 0; i--) cout << a[i].name << endl;
+
+    return 0;
+}
