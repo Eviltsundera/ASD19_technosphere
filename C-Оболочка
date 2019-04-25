@@ -1,0 +1,83 @@
+#include <iostream>
+#include <map>
+#include <utility>
+#include <vector>
+#include <map>
+#include <cmath>
+#include <iomanip>
+
+using namespace std;
+
+double rotate(pair<double,double> a, pair<double,double> b, pair<double,double> c) {
+    pair<double,double> x, y;
+    x.first = b.first - a.first; x.second = b.second - a.second;
+    y.first = c.first - a.first; y.second = c.second - a.second;
+    return x.first * y.second - x.second * y.first;
+}
+
+int main() {
+    double n;
+    cin >> n;
+
+    map<pair<double,double>,double> a;
+    for (int i = 0; i < n; i++) {
+        pair<double,double> tmp;
+        double t;
+        cin >> t; tmp.first = t;
+        cin >> t; tmp.second = t;
+        a[tmp];
+    }
+
+   
+
+    pair<double,double> left = {100000, 1};
+    for (auto c : a) {
+        if (c.first.first < left.first) left = c.first;
+    }
+
+
+
+    vector<pair<double,double>> h;
+    h.push_back(left);
+
+    pair<double,double> current = h[0];
+    pair<double, double> right;
+
+
+    while (true){
+        for(auto c : a) {
+            if(c.first != current) {
+                right = c.first;
+                break;
+            }
+        }
+
+
+        for (auto c : a) {
+            if (rotate(current, right, c.first) < 0) right = c.first;
+        }
+
+        if(right == h[0]) break;
+        h.push_back(right);
+        auto it = a.find(right);
+        a.erase(it);
+
+
+        current = right;
+    }
+
+
+
+
+
+    double ans = 0;
+    for (int i = 1; i < h.size(); i++) {
+        ans += sqrt( (h[i].first - h[i - 1].first) * (h[i].first - h[i - 1].first)  +
+                (h[i].second - h[i - 1].second) * (h[i].second - h[i - 1].second));
+    }
+    ans += sqrt( (h[0].first - h[h.size() - 1].first) * (h[0].first - h[h.size() - 1].first)  +
+                 (h[0].second - h[h.size() - 1].second) * (h[0].second - h[h.size() - 1].second));
+
+    cout << fixed << setprecision(2) << ans;
+    return 0;
+}
