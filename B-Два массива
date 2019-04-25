@@ -1,0 +1,44 @@
+#include <iostream>
+#include <string>
+#include <stack>
+#include <queue>
+
+using namespace std;
+
+
+int main() {
+
+    queue <int> a;
+    queue <int> b;
+
+    int n1, n2, tmp;
+    cin >> n1 >> n2;
+
+    for (int i = 0; i< n1; i++) {
+        cin >> tmp;
+        a.push(tmp);
+    }
+
+    for(int i = 0; i < n2; i++) {
+        cin >> tmp;
+        b.push(tmp);
+    }
+
+    int counter = 0;
+    while(!a.empty() && !b.empty()) {
+        tmp = a.front(); a.pop();
+
+        while(!b.empty()) {
+            if(b.front() == tmp) {
+                counter++;
+                b.pop();
+                break;
+            } else if(b.front() < tmp) b.pop();
+            else break;
+        }
+
+    }
+
+    cout << counter;
+    return 0;
+}
